@@ -43,5 +43,7 @@ public final class Constants {
 
     public static final int ERROR_CODE = 500;
 
+    public static final int TIMEOUT_CODE = 502;
+
 
 }

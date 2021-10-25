@@ -1,5 +1,6 @@
 package com.github.gzhola.okjob.common.utils;
 
+import com.github.gzhola.okjob.common.context.JobHelper;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,7 +83,7 @@ public class ScriptUtils {
                     try {
                         copy(process.getInputStream(), finalFileOutputStream, new byte[1024]);
                     } catch (IOException e) {
-                        XxlJobHelper.log(e);
+                        JobHelper.log(e);
                     }
                 }
             });
@@ -92,7 +93,7 @@ public class ScriptUtils {
                     try {
                         copy(process.getErrorStream(), finalFileOutputStream, new byte[1024]);
                     } catch (IOException e) {
-                        XxlJobHelper.log(e);
+                        JobHelper.log(e);
                     }
                 }
             });
@@ -100,7 +101,8 @@ public class ScriptUtils {
             errThread.start();
 
             // process-wait
-            int exitValue = process.waitFor();      // exit code: 0=success, 1=error
+            // exit code: 0=success, 1=error
+            int exitValue = process.waitFor();
 
             // log-thread join
             inputThread.join();
@@ -108,14 +110,14 @@ public class ScriptUtils {
 
             return exitValue;
         } catch (Exception e) {
-            XxlJobHelper.log(e);
+            JobHelper.log(e);
             return -1;
         } finally {
             if (fileOutputStream != null) {
                 try {
                     fileOutputStream.close();
                 } catch (IOException e) {
-                    XxlJobHelper.log(e);
+                    JobHelper.log(e);
                 }
 
             }
@@ -163,5 +165,4 @@ public class ScriptUtils {
             }
         }
     }
-
 }
